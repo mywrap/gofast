@@ -18,8 +18,10 @@ type Cron struct {
 
 // NewCron periodically executes input job in a goroutine at specific time.
 // Example: remainder = 7 hours, interval = 24 hours: the job will be executed
-// at 7AM (in UTC) everyday (executed time point accuracy is interval / 100).
-// Any function can be wrap: job = func(){yourFunc(args...)}
+// at 7AM (in UTC) everyday.
+// Executed time point is based on a ticker (instead of time.Sleep) with
+// the uncertainty less than 1 second.
+// Any function can be wrap: job = func(){yourFunc(args...)}.
 func NewCron(job func(), interval time.Duration, remainder time.Duration) *Cron {
 	// initialize cron obj
 	ctx, cxl := context.WithCancel(context.Background())
@@ -30,9 +32,10 @@ func NewCron(job func(), interval time.Duration, remainder time.Duration) *Cron 
 		stopChan:    ctx.Done(),
 		stopChanCxl: cxl,
 	}
-	// Explain the "Add(-c.remainder) then Add(c.remainder)" meaning by example:
-	// if interval = 24h, remainder = 7h, the cron run at 6AM then
-	// lastJob = yesterday 7AM, the job will run at today 7AM.
+	// Explain the "Add(-c.remainder) then Add(c.remainder)":
+	// assumed interval = 24h, remainder = 7h, the cron inited at 6AM then
+	// we have 6h.Add(-7h).Truncate(24h) = 0AM yesterday,
+	// so lastJob = yesterday 7AM, the job will run at today 7AM.
 	c.lastJob = time.Now().Add(-c.remainder).Truncate(c.interval).Add(c.remainder)
 
 	// run

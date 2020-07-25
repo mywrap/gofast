@@ -4,8 +4,6 @@ import (
 	"sync"
 	"testing"
 	"time"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 func TestCron(t *testing.T) {
@@ -20,8 +18,6 @@ func TestCron(t *testing.T) {
 	time.Sleep(300 * time.Millisecond)
 	c.Stop()
 	time.Sleep(50 * time.Millisecond)
-	_ = spew.Dump
-	//spew.Dump(counter)
 	if len(counter) != 20 {
 		t.Error(len(counter))
 	}
