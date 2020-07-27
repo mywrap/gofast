@@ -9,6 +9,8 @@ import (
 // GenUUID generates unique 128-bit ID, represent by 32-char hex encoding.
 // Probability that a ID will be duplicated is close enough to zero (10**-38)
 // This implement does not follow rfc4122 standard.
+//
+// Deprecated: use UUIDGenNoHyphen instead
 func GenUUID() string {
 	b := make([]byte, 16)
 	_, _ = rand.Read(b)
@@ -18,6 +20,8 @@ func GenUUID() string {
 
 // GenUUIDWithHyphen does not follow rfc4122 standard,
 // but this func follows 8-4-4-4-12 layout
+//
+// Deprecated: use UUIDGen instead
 func GenUUIDWithHyphen() string {
 	id := GenUUID()
 	if len(id) != 32 { // just to be safe
@@ -30,4 +34,17 @@ func GenUUIDWithHyphen() string {
 	node := id[20:]
 	return fmt.Sprintf("%v-%v-%v-%v-%v",
 		timeLow, timeMid, timeHiAndVersion, clockSeq, node)
+}
+
+// UUIDGen does not follow rfc4122 standard,
+// but it follows 8-4-4-4-12 layout
+func UUIDGen() string {
+	return GenUUIDWithHyphen()
+}
+
+// UUIDGenNoHyphen generates unique 128-bit ID, represent by 32-char hex encoding.
+// Probability that a ID will be duplicated is close enough to zero (10**-38)
+// This implement does not follow rfc4122 standard.
+func UUIDGenNoHyphen() string {
+	return GenUUID()
 }
