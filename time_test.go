@@ -11,4 +11,7 @@ func TestVietnamTime(t *testing.T) {
 	if nowStr[len(nowStr)-6:] != "+07:00" {
 		t.Error()
 	}
+
+	today := VietnamDateNowIso()
+	t.Logf(today)
 }

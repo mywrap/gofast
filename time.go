@@ -26,3 +26,7 @@ func VietnamTimeNow() time.Time {
 func VietnamTimeNowIso() string {
 	return VietnamTimeNow().Format(time.RFC3339)
 }
+
+func VietnamDateNowIso() string {
+	return VietnamTimeNow().Format("2006-01-02")
+}
