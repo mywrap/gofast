@@ -15,3 +15,9 @@ func TestVietnamTime(t *testing.T) {
 	today := VietnamDateNowIso()
 	t.Logf(today)
 }
+
+func BenchmarkVietnamTimeLoc(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		VietnamDateNowIso()
+	}
+}

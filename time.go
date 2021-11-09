@@ -6,15 +6,15 @@ import (
 
 // VietnamTimeLoc returns location +07:00
 func VietnamTimeLoc() *time.Location {
-	loc, err := time.LoadLocation("Asia/Ho_Chi_Minh")
-	if err == nil {
-		return loc
-	}
-	t0, err := time.Parse(time.RFC3339, "2020-03-27T11:00:31+07:00")
+	//loc, err := time.LoadLocation("Asia/Ho_Chi_Minh") // slow down this func 10 times
+	//if err == nil {
+	//	return loc
+	//}
+	t0, err := time.Parse(time.RFC3339, "2006-01-02T15:04:05+07:00")
 	if err == nil {
 		return t0.Location()
 	}
-	return time.Local
+	return time.Local // unreachable
 }
 
 // VietnamTimeNow returns now in location +07:00
