@@ -10,4 +10,8 @@ func TestGetProjectRootPath(t *testing.T) {
 		t.Error(err)
 	}
 	t.Logf("pwd: %v", pwd)
+	pwd1, err := GetProjectRootGit()
+	if pwd1 != pwd {
+		t.Errorf("error GetProjectRootGit, got %v, want %v", pwd1, pwd)
+	}
 }
